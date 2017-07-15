@@ -88,9 +88,11 @@ namespace BusTicketBookingSystem.Models
 		
 		private string _LastName;
 		
-		private string _Email;
+		private string _PhoneNumber;
 		
-		private long _PhoneNumber;
+		private string _BankName;
+		
+		private string _BankAccountNumber;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -104,10 +106,12 @@ namespace BusTicketBookingSystem.Models
     partial void OnFirstNameChanged();
     partial void OnLastNameChanging(string value);
     partial void OnLastNameChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnPhoneNumberChanging(long value);
+    partial void OnPhoneNumberChanging(string value);
     partial void OnPhoneNumberChanged();
+    partial void OnBankNameChanging(string value);
+    partial void OnBankNameChanged();
+    partial void OnBankAccountNumberChanging(string value);
+    partial void OnBankAccountNumberChanged();
     #endregion
 		
 		public Passenger()
@@ -195,28 +199,8 @@ namespace BusTicketBookingSystem.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(32) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="BigInt NOT NULL")]
-		public long PhoneNumber
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="VarChar(15) NOT NULL", CanBeNull=false)]
+		public string PhoneNumber
 		{
 			get
 			{
@@ -231,6 +215,46 @@ namespace BusTicketBookingSystem.Models
 					this._PhoneNumber = value;
 					this.SendPropertyChanged("PhoneNumber");
 					this.OnPhoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BankName", DbType="NVarChar(25) NOT NULL", CanBeNull=false)]
+		public string BankName
+		{
+			get
+			{
+				return this._BankName;
+			}
+			set
+			{
+				if ((this._BankName != value))
+				{
+					this.OnBankNameChanging(value);
+					this.SendPropertyChanging();
+					this._BankName = value;
+					this.SendPropertyChanged("BankName");
+					this.OnBankNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BankAccountNumber", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string BankAccountNumber
+		{
+			get
+			{
+				return this._BankAccountNumber;
+			}
+			set
+			{
+				if ((this._BankAccountNumber != value))
+				{
+					this.OnBankAccountNumberChanging(value);
+					this.SendPropertyChanging();
+					this._BankAccountNumber = value;
+					this.SendPropertyChanged("BankAccountNumber");
+					this.OnBankAccountNumberChanged();
 				}
 			}
 		}

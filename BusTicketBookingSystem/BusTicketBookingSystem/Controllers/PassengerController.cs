@@ -19,13 +19,6 @@ namespace BusTicketBookingSystem.Controllers
             context = new OperationDataContext();           
         }
 
-        // For collection query in aspnetusers EF database
-        // for reference : https://stackoverflow.com/questions/20925822/asp-net-mvc-5-identity-how-to-get-current-applicationuser
-        private ApplicationUser GetInfoUser(string id)
-        {
-            return System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(id);
-        }
-
         // GET: Passenger
         public ActionResult Index()
         {
@@ -49,7 +42,9 @@ namespace BusTicketBookingSystem.Controllers
                     FirstName = passengerItem.FirstName,
                     LastName = passengerItem.LastName,
                     Email = GetInfoUser(passengerItem.UserID).Email,
-                    PhoneNumber = passengerItem.PhoneNumber
+                    PhoneNumber = passengerItem.PhoneNumber,
+                    BankName = passengerItem.BankName,
+                    BankAccountNumber = passengerItem.BankAccountNumber
                 });
             }
 
@@ -67,7 +62,9 @@ namespace BusTicketBookingSystem.Controllers
                     FirstName = some.FirstName,
                     LastName = some.LastName,
                     Email = GetInfoUser(some.UserID).Email,
-                    PhoneNumber = some.PhoneNumber
+                    PhoneNumber = some.PhoneNumber,
+                    BankName = some.BankName,
+                    BankAccountNumber = some.BankAccountNumber
                 }).SingleOrDefault();
 
             return View(model);
@@ -76,11 +73,15 @@ namespace BusTicketBookingSystem.Controllers
         // GET: Passenger/Create
         public ActionResult Create()
         {
-            // Get current user email           
-            ViewBag.currentEmail = GetInfoUser(User.Identity.GetUserId()).Email;
+            PassengerModel model = new PassengerModel();
 
-            return View();
-        } 
+            PopulateBanks(model);
+
+            // Get current user email           
+            ViewBag.currentEmail = GetInfoUser(User.Identity.GetUserId()).Email;            
+
+            return View(model);
+        }
 
         // POST: Passenger/Create
         [HttpPost]
@@ -89,16 +90,17 @@ namespace BusTicketBookingSystem.Controllers
             try
             {
                 // TODO: Add insert logic here
-                // Get current user email 
-                //ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                PopulateBanks(model);
 
                 Passenger passenger = new Passenger()
                 {
                     UserID = User.Identity.GetUserId(),
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    Email = GetInfoUser(User.Identity.GetUserId()).Email,
-                    PhoneNumber = model.PhoneNumber
+                    PhoneNumber = model.PhoneNumber,
+                    BankName = model.BankName,
+                    BankAccountNumber = model.BankAccountNumber
                 };
 
                 context.Passengers.InsertOnSubmit(passenger);
@@ -123,8 +125,12 @@ namespace BusTicketBookingSystem.Controllers
                     FirstName = some.FirstName,
                     LastName = some.LastName,
                     Email = GetInfoUser(some.UserID).Email,
-                    PhoneNumber = some.PhoneNumber
+                    PhoneNumber = some.PhoneNumber,
+                    BankName = some.BankName,
+                    BankAccountNumber = some.BankAccountNumber
                 }).SingleOrDefault();
+
+            PopulateBanks(model);
 
             ViewBag.currentEmail = GetInfoUser(User.Identity.GetUserId()).Email;
 
@@ -138,10 +144,15 @@ namespace BusTicketBookingSystem.Controllers
             try
             {
                 // TODO: Add update logic here
+
+                PopulateBanks(model);
+
                 Passenger passenger = context.Passengers.Where(some => some.Id == model.Id).Single<Passenger>();
                 passenger.FirstName = model.FirstName;
                 passenger.LastName = model.LastName;
                 passenger.PhoneNumber = model.PhoneNumber;
+                passenger.BankName = model.BankName;
+                passenger.BankAccountNumber = model.BankAccountNumber;
 
                 context.SubmitChanges();
 
@@ -165,7 +176,9 @@ namespace BusTicketBookingSystem.Controllers
                     FirstName = some.FirstName,
                     LastName = some.LastName,
                     Email = GetInfoUser(some.UserID).Email,
-                    PhoneNumber = some.PhoneNumber
+                    PhoneNumber = some.PhoneNumber,
+                    BankName = some.BankName,
+                    BankAccountNumber = some.BankAccountNumber
                 }).SingleOrDefault();
 
             return View(model);
@@ -189,6 +202,66 @@ namespace BusTicketBookingSystem.Controllers
             {
                 return View();
             }
+        }
+
+        // For collection query in aspnetusers EF database
+        // for reference : https://stackoverflow.com/questions/20925822/asp-net-mvc-5-identity-how-to-get-current-applicationuser
+        private ApplicationUser GetInfoUser(string id)
+        {
+            return System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(id);
+        }
+
+        // For Bank Select List Item
+        private IEnumerable<string> GetAllBanks()
+        {
+            return new List<string>
+            {
+                "BNI",
+                "BNI Syariah",
+                "BRI",
+                "BRI Syariah",
+                "Bank Mandiri",
+                "Bank Mandiri Syariah",
+                "Bank Muamalat",
+                "BTN",
+                "BCA",
+                "Bank Permata",
+                "CIMB Niaga",
+            };
+        }
+
+        // This is one of the most important parts in the whole example.
+        // This function takes a list of strings and returns a list of SelectListItem objects.
+        // These objects are going to be used later in the SignUp.html template to render the
+        // DropDownList.
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<string> elements)
+        {
+            // Create an empty list to hold result of the operation
+            var selectList = new List<SelectListItem>();
+
+            // For each string in the 'elements' variable, create a new SelectListItem object
+            // that has both its Value and Text properties set to a particular value.
+            // This will result in MVC rendering each item as:
+            //     <option value="State Name">State Name</option>
+            foreach (var element in elements)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Value = element,
+                    Text = element
+                });
+            }
+
+            return selectList;
+        }
+
+        private void PopulateBanks(PassengerModel model)
+        {
+            // Let's get all states that we need for a DropDownList
+            var banks = GetAllBanks();
+
+            // Create a list of SelectListItems so these can be rendered on the page
+            model.Banks = GetSelectListItems(banks);
         }
     }
 }

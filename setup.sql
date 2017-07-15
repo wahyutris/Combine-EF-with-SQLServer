@@ -5,6 +5,7 @@ CREATE TABLE Passenger
     UserID NVARCHAR(50) NOT NULL UNIQUE,
 	FirstName NVARCHAR(25) NOT NULL,
 	LastName NVARCHAR(25) NOT NULL,
-	Email VARCHAR(32) NOT NULL,
-	PhoneNumber bigint NOT NULL, 
+	PhoneNumber VARCHAR(15) NOT NULL,
+	BankName NVARCHAR(25) NOT NULL,
+	BankAccountNumber VARCHAR(25) NOT NULL
 )

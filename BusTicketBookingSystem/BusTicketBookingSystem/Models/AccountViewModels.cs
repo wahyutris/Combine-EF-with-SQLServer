@@ -63,9 +63,8 @@ namespace BusTicketBookingSystem.Models
 
     public class RegisterViewModel
     {
-        //[Required]
-        //[Display(Name = "User Roles")]
-        // This value will be insert automatically as "User" pre-defined in Startup.cs
+        [Display(Name = "User Roles")]
+        // This value will be insert automatically as "User" pre-defined in AccountController.cs
         public string UserRoles { get; set; }
 
         [Required]
