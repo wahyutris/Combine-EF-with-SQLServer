@@ -29,5 +29,7 @@ namespace BusTicketBookingSystem.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<BusTicketBookingSystem.Models.PassengerModel> PassengerModels { get; set; }
     }
 }
