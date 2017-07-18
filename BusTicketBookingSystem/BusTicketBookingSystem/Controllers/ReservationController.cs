@@ -55,7 +55,27 @@ namespace BusTicketBookingSystem.Controllers
         // GET: Reservation/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var query = from reservation in context.Reservations
+                        join bus in context.BusVehicles
+                        on reservation.BusID equals bus.Id
+                        where reservation.Id == id
+                        select new ReservationModel
+                        {
+                            Id = reservation.Id,
+                            TotalSeat = reservation.TotalSeat,
+                            PurchasedOn = reservation.PurchasedOn,
+                            PassengerID = reservation.PassengerID,
+                            BusOrigin = bus.Route.Origin,
+                            BusDestination = bus.Route.Destination,
+                            BusName = bus.Name,
+                            BusClass = bus.Class,
+                            BusCapacity = bus.Capacity,
+                            DepartureTime = bus.DepartureTime.ToString(),
+                            TotalAmount = reservation.TotalAmount,
+                            IsConfirmed = reservation.IsConfirmed
+                        };
+
+            return View(query.SingleOrDefault());
         }
 
         // GET: Reservation/Create
@@ -114,7 +134,7 @@ namespace BusTicketBookingSystem.Controllers
                                      DepartureTime = bv.DepartureTime,
                                      //PassengersCount = context.Reservations
                                      //                         .Where(r => r.BusID == bv.Id)
-                                     //                         .Where(r => r.IsConfirmed)
+                                     //                         .Where(r => r.IsConfirmed == true)
                                      //                         .Select(r => r.TotalSeat)
                                      //                         .DefaultIfEmpty()
                                      //                         .Sum()
@@ -189,29 +209,8 @@ namespace BusTicketBookingSystem.Controllers
                     return View(viewModel);
                 }
 
-                ReservationModel model = new ReservationModel()
-                {
-                    TotalSeat = ticket.PassengersCount,
-                    PurchasedOn = DateTime.Now,
-                    PassengerID = context.Passengers
-                                         .Where(u => u.UserID == currentUserId)
-                                         .Select(p => p.Id)
-                                         .SingleOrDefault(),
-                    BusID = bus.Id,
-                    TotalAmount = ticket.PassengersCount * bus.Fare,
-                    IsConfirmed = false
-                };
-
                 Reservation reservation = new Reservation()
                 {
-                    //TotalSeat = model.TotalSeat,
-                    //PurchasedOn = model.PurchasedOn,
-                    //PassengerID = model.PassengerID,
-                    //BusID = model.BusID,
-                    //Date = model.DateId,
-                    //TotalAmount = model.TotalAmount,
-                    //IsConfirmed = model.IsConfirmed
-
                     TotalSeat = ticket.PassengersCount,
                     PurchasedOn = DateTime.Now,
                     PassengerID = context.Passengers
@@ -226,7 +225,7 @@ namespace BusTicketBookingSystem.Controllers
                 context.Reservations.InsertOnSubmit(reservation);
                 context.SubmitChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             catch
             {
@@ -383,18 +382,43 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Reservation/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            return View();
+            var query = from reservation in context.Reservations
+                        join bus in context.BusVehicles
+                        on reservation.BusID equals bus.Id
+                        where reservation.Id == id
+                        select new ReservationModel
+                        {
+                            TotalSeat = reservation.TotalSeat,
+                            PurchasedOn = reservation.PurchasedOn,
+                            PassengerID = reservation.PassengerID,
+                            BusOrigin = bus.Route.Origin,
+                            BusDestination = bus.Route.Destination,
+                            BusName = bus.Name,
+                            BusClass = bus.Class,
+                            BusCapacity = bus.Capacity,
+                            DepartureTime = bus.DepartureTime.ToString(),
+                            TotalAmount = reservation.TotalAmount,
+                            IsConfirmed = reservation.IsConfirmed
+                        };
+
+            return View(query.SingleOrDefault());
         }
 
         // POST: Reservation/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int id, ReservationModel model)
         {
             try
             {
                 // TODO: Add delete logic here
+                Reservation reservation = context.Reservations.Where(some => some.Id == model.Id).Single<Reservation>();
+
+                context.Reservations.DeleteOnSubmit(reservation);
+                context.SubmitChanges();
 
                 return RedirectToAction("Index");
             }

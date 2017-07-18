@@ -369,6 +369,8 @@
     <Content Include="Views\Reservation\Edit.cshtml" />
     <Content Include="Views\Reservation\Print.cshtml" />
     <Content Include="Views\Passenger\Manage.cshtml" />
+    <Content Include="Views\Reservation\Details.cshtml" />
+    <Content Include="Views\Reservation\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
