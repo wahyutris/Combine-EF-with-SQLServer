@@ -14,20 +14,25 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Search bus", "Create", "Reservation")</li>
-                    <li>@Html.ActionLink("Purchased ticket", "List", "Reservation")</li>
-                }
                 @if (User.IsInRole("Admin"))
                 {
+                    <li>@Html.ActionLink("Search bus", "Create", "Reservation")</li>
+                    <li>@Html.ActionLink("Purchased ticket", "Index", "Reservation")</li>
                     <li>@Html.ActionLink("Role Manager", "Index", "Roles")</li>
                     <li>@Html.ActionLink("Manage City", "Index", "Place")</li>
                     <li>@Html.ActionLink("Manage Route", "Index", "Route")</li>
-                    <li>@Html.ActionLink("Manage Bus", "Index", "BusVehicle")</li>                    
+                    <li>@Html.ActionLink("Manage Bus", "Index", "BusVehicle")</li>
                 }
+                else
+                {
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Search bus", "Create", "Reservation")</li>
+                        <li>@Html.ActionLink("Purchased ticket", "List", "Reservation")</li>
+                    }
+                }      
             </ul>
             @Html.Partial("_LoginPartial")
         </div>

@@ -70,7 +70,7 @@
                         }
                         else
                         {
-                            @Html.ActionLink("Resend confirmation", "SendPurchaseConfirmationEmail", new { ticketId = ticket.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Send confirmation", "UploadProof", new { ticketId = ticket.Id }, new { @class = "btn btn-primary" })
                         }
                         @Html.ActionLink("Cancel", "Cancel", "Reservation", new { id = ticket.Id }, new { @class = "btn btn-danger cancelBtn", @id = ticket.Id })
                     </div>

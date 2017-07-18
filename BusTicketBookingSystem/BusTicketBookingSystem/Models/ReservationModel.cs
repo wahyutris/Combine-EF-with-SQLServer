@@ -23,6 +23,7 @@ namespace BusTicketBookingSystem.Models
         public string BusClass { get; set; }
         public string BusOrigin { get; set; }
         public string BusDestination { get; set; }
+        public int BusCapacity { get; set; }
 
 
         [Display(Name = "Departure time")]

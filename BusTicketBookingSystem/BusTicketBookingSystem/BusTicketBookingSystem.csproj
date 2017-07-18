@@ -239,6 +239,10 @@
     <Compile Include="Migrations\201707181218598_listPurchased2.Designer.cs">
       <DependentUpon>201707181218598_listPurchased2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707181403436_reservation-edit.cs" />
+    <Compile Include="Migrations\201707181403436_reservation-edit.Designer.cs">
+      <DependentUpon>201707181403436_reservation-edit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -250,10 +254,11 @@
     </Compile>
     <Compile Include="Models\PassengerModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
+    <Compile Include="Models\Ticket\PrintTicketViewModel.cs" />
     <Compile Include="Models\Vehicle\AvailableBusViewModel.cs" />
     <Compile Include="Models\Vehicle\BusVehicleModel.cs" />
     <Compile Include="Models\Vehicle\PlaceModel.cs" />
-    <Compile Include="Models\Vehicle\PurchaseTicketViewModel.cs" />
+    <Compile Include="Models\Ticket\PurchaseTicketViewModel.cs" />
     <Compile Include="Models\Vehicle\RouteModel.cs" />
     <Compile Include="Models\Vehicle\SearchBusViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -361,6 +366,8 @@
     <Content Include="Views\Reservation\Create.cshtml" />
     <Content Include="Views\BusVehicle\_All.cshtml" />
     <Content Include="Views\Reservation\List.cshtml" />
+    <Content Include="Views\Reservation\Edit.cshtml" />
+    <Content Include="Views\Reservation\Print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -410,6 +417,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707181218598_listPurchased2.resx">
       <DependentUpon>201707181218598_listPurchased2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707181403436_reservation-edit.resx">
+      <DependentUpon>201707181403436_reservation-edit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

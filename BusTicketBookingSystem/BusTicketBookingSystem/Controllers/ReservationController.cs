@@ -1,5 +1,6 @@
 ﻿using BusTicketBookingSystem.Filters;
 using BusTicketBookingSystem.Models;
+using BusTicketBookingSystem.Models.Ticket;
 using BusTicketBookingSystem.Models.Vehicle;
 using BusTicketBookingSystem.Utilities;
 using Microsoft.AspNet.Identity;
@@ -20,6 +21,7 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Reservation
+
         public ActionResult Index()
         {
             // create the placeList variable
@@ -303,18 +305,43 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Reservation/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
-            return View();
+            var query = from reservation in context.Reservations
+                        join bus in context.BusVehicles
+                        on reservation.BusID equals bus.Id
+                        where reservation.Id == id
+                        select new ReservationModel
+                        {
+                            TotalSeat = reservation.TotalSeat,
+                            PurchasedOn = reservation.PurchasedOn,
+                            PassengerID = reservation.PassengerID,
+                            BusOrigin = bus.Route.Origin,
+                            BusDestination = bus.Route.Destination,
+                            BusName = bus.Name,
+                            BusClass = bus.Class,
+                            BusCapacity = bus.Capacity,
+                            DepartureTime = bus.DepartureTime.ToString(),
+                            TotalAmount = reservation.TotalAmount,
+                            IsConfirmed = reservation.IsConfirmed
+                        };
+
+            return View(query.SingleOrDefault());
         }
 
         // POST: Reservation/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(int id, ReservationModel model)
         {
             try
             {
                 // TODO: Add update logic here
+                Reservation reservation = context.Reservations.Where(some => some.Id == model.Id).Single<Reservation>();
+                reservation.IsConfirmed = model.IsConfirmed;
+
+                context.SubmitChanges();
 
                 return RedirectToAction("Index");
             }
@@ -322,6 +349,37 @@ namespace BusTicketBookingSystem.Controllers
             {
                 return View();
             }
+        }
+
+        // GET ticket/print/{id}
+        [HttpGet]
+        [Authorize]
+        public ActionResult Print(int id)
+        {
+            var ticket = context.Reservations.Where(some => some.Id == id).Single<Reservation>();
+            var user = context.Passengers.Where(some => some.UserID == User.Identity.GetUserId()).Single<Passenger>();                
+
+            if (ticket == null ||
+                ticket.Passenger.UserID.ToString() != User.Identity.GetUserId())
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            var viewModel = new PrintTicketViewModel
+            {
+                Id = ticket.Id,
+                Arrival = ticket.BusVehicle.Route.Origin,
+                Departure = ticket.BusVehicle.Route.Destination,
+                CustomerName = $"{user.FirstName} {user.LastName}",
+                DepartureTime = ticket.BusVehicle.DepartureTime,
+                BusName = ticket.BusVehicle.Name,
+                BusClass = ticket.BusVehicle.Class,
+                PassengersCount = ticket.TotalSeat,
+                Price = ticket.TotalAmount,
+                PurchasedOn = ticket.PurchasedOn
+            };
+
+            return View(viewModel);
         }
 
         // GET: Reservation/Delete/5
