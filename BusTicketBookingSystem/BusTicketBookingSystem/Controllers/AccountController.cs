@@ -182,7 +182,7 @@ namespace BusTicketBookingSystem.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     //Ends Here 
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Create", "Passenger");
                 }
                 AddErrors(result);
             }

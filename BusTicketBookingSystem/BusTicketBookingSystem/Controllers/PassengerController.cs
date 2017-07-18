@@ -20,6 +20,7 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Passenger
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             // create the placeList variable
@@ -51,7 +52,42 @@ namespace BusTicketBookingSystem.Controllers
             return View(passengerList);
         }
 
+        [Authorize]
+        public ActionResult Manage()
+        {
+            // create the placeList variable
+            List<PassengerModel> passengerList = new List<PassengerModel>();
+
+            // perform linq operation
+            var query = from passenger in context.Passengers
+                        where passenger.UserID == User.Identity.GetUserId()
+                        select passenger;
+
+            // store the query to list
+            var passengers = query.ToList();
+
+            // looping through all items in roles
+            foreach (var passengerItem in passengers)
+            {
+                passengerList.Add(new PassengerModel()
+                {
+                    Id = passengerItem.Id,
+                    UserID = passengerItem.UserID,
+                    UserName = GetInfoUser(passengerItem.UserID).UserName,
+                    FirstName = passengerItem.FirstName,
+                    LastName = passengerItem.LastName,
+                    Email = GetInfoUser(passengerItem.UserID).Email,
+                    PhoneNumber = passengerItem.PhoneNumber,
+                    BankName = passengerItem.BankName,
+                    BankAccountNumber = passengerItem.BankAccountNumber
+                });
+            }
+
+            return View(passengerList);
+        }
+
         // GET: Passenger/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             PassengerModel model = context.Passengers.Where(some => some.Id == id).Select(
@@ -71,6 +107,7 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Passenger/Create
+        [Authorize]
         public ActionResult Create()
         {
             PassengerModel model = new PassengerModel();
@@ -85,6 +122,7 @@ namespace BusTicketBookingSystem.Controllers
 
         // POST: Passenger/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(PassengerModel model)
         {
             try
@@ -106,7 +144,7 @@ namespace BusTicketBookingSystem.Controllers
                 context.Passengers.InsertOnSubmit(passenger);
                 context.SubmitChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home", new { area = "" });
             }
             catch
             {
@@ -115,6 +153,7 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Passenger/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             PassengerModel model = context.Passengers.Where(some => some.Id == id).Select(
@@ -139,6 +178,7 @@ namespace BusTicketBookingSystem.Controllers
 
         // POST: Passenger/Edit/5
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(int id, PassengerModel model)
         {
             try
@@ -165,6 +205,7 @@ namespace BusTicketBookingSystem.Controllers
         }
 
         // GET: Passenger/Delete/5
+        [Authorize]
         public ActionResult Delete(int id)
         {
             PassengerModel model = context.Passengers.Where(some => some.Id == id).Select(
@@ -186,6 +227,7 @@ namespace BusTicketBookingSystem.Controllers
 
         // POST: Passenger/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, PassengerModel model)
         {
             try

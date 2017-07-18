@@ -253,7 +253,7 @@
       <DependentUpon>Operation.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\PassengerModel.cs" />
-    <Compile Include="Models\ReservationModel.cs" />
+    <Compile Include="Models\Ticket\ReservationModel.cs" />
     <Compile Include="Models\Ticket\PrintTicketViewModel.cs" />
     <Compile Include="Models\Vehicle\AvailableBusViewModel.cs" />
     <Compile Include="Models\Vehicle\BusVehicleModel.cs" />
@@ -368,6 +368,7 @@
     <Content Include="Views\Reservation\List.cshtml" />
     <Content Include="Views\Reservation\Edit.cshtml" />
     <Content Include="Views\Reservation\Print.cshtml" />
+    <Content Include="Views\Passenger\Manage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
