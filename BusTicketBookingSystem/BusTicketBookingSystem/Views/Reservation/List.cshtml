@@ -1,0 +1,104 @@
+﻿@model IList<BusTicketBookingSystem.Models.ReservationModel>
+
+@{
+    ViewBag.Title = "Purchased Ticket";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create New Reservation", "Create")
+</p>
+@if (Model.Count == 0)
+{
+    <h4>You don't have any tickets purchased.</h4>
+}
+<div class="row">
+    @foreach (var ticket in Model)
+    {
+        string panelThemeClass = ticket.IsConfirmed ? "success" : "warning";
+
+        <div class="col-md-4">
+            <div class="ticket panel panel-@panelThemeClass">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @Html.DisplayFor(x => ticket.BusOrigin)
+                        <i class="material-icons" style="font-size: 15px">&#xE5C8;</i>
+                        @Html.DisplayFor(x => ticket.BusDestination)
+                        (
+                        <i class="material-icons" style="font-size: 15px">&#xE7FB;</i>
+                        x
+                        @Html.DisplayFor(x => ticket.TotalSeat)
+                        )
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @Html.LabelFor(x => ticket.BusName):
+                        <b>
+                            @Html.DisplayFor(x => ticket.BusName)
+                        </b>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(x => ticket.BusClass):
+                        <b>
+                            @Html.DisplayFor(x => ticket.BusClass)
+                        </b>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(x => ticket.DepartureTime):
+                        <b>
+                            @Html.DisplayFor(x => ticket.DepartureTime)
+                        </b>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(x => ticket.TotalAmount):
+                        <b class="text-success">
+                            @Html.DisplayFor(x => ticket.TotalAmount)                            
+                        </b>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(x => ticket.IsConfirmed):
+                        <b>
+                            @Html.DisplayFor(x => ticket.IsConfirmed)
+                        </b>
+                    </div>
+                    <div class="row">
+                        @if (ticket.IsConfirmed)
+                        {
+                            @Html.ActionLink("Print", "Print", new { id = ticket.Id }, new { @class = "btn btn-primary" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Resend confirmation", "SendPurchaseConfirmationEmail", new { ticketId = ticket.Id }, new { @class = "btn btn-primary" })
+                        }
+                        @Html.ActionLink("Cancel", "Cancel", "Reservation", new { id = ticket.Id }, new { @class = "btn btn-danger cancelBtn", @id = ticket.Id })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Are you sure you want to cancel this ticket?</h4>
+            </div>
+            <div id="modal-body" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <a class="btn btn-primary" id="confirmCancellationBtn">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/Ticket/list.js">
+    </script>
+}

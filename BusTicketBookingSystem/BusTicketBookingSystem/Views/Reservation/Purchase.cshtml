@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using BusTicketBookingSystem.Models.Vehicle
+
+@model AvailableBusViewModel
+<div class="col-md-6">
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert"><i class="material-icons">&#xE5CD;</i></button>
+            @ViewBag.Error
+        </div>
+    }
+    <div class="lead">
+        <b>@Html.DisplayFor(x => x.Route.Origin)</b>
+        <i class="material-icons" style="font-size: 15px">&#xE5C8;</i>
+        <b>@Html.DisplayFor(x => x.Route.Destination)</b>
+    </div>
+    <div>
+        @Html.Label("Date:")
+        <b>
+            @Html.DisplayFor(x => x.DepartureTime)
+        </b>
+    </div>
+
+    <div>
+        @Html.LabelFor(x => x.Class):
+        <b>
+            @Html.DisplayFor(x => x.Class)
+        </b>
+    </div>
+
+    <div>
+        @Html.LabelFor(x => x.Capacity):
+        <b>
+            @Html.DisplayFor(x => x.Capacity)
+        </b>
+    </div>
+    <hr />
+    @using (Html.BeginForm("Purchase", "Reservation", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.HiddenFor(x => x.Id)
+            <div class="container">
+                <div class="row">
+                    <label for="PassengersCount">Passengers: </label>
+                    <select id="PassengersCount" name="PassengersCount">
+                        @for (int i = 1; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(x => x.Fare):
+            <b class="text-success">
+                @Html.DisplayFor(x => x.Fare)
+            </b>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Purchase" />
+    }
+</div>
+<script src="~/Scripts/Ticket/purchase.js"></script>

@@ -31,5 +31,7 @@ namespace BusTicketBookingSystem.Models
         }
 
         public System.Data.Entity.DbSet<BusTicketBookingSystem.Models.PassengerModel> PassengerModels { get; set; }
+
+        public System.Data.Entity.DbSet<BusTicketBookingSystem.Models.ReservationModel> ReservationModels { get; set; }
     }
 }

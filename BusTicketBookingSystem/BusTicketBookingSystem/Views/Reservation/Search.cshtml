@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using BusTicketBookingSystem.Models.Vehicle
+
+@model IList<AvailableBusViewModel>
+@{
+    ViewBag.Title = "Search results";
+}
+
+@if (Model?.Count > 0)
+{
+    <h4>Available bus found: </h4>
+    <hr />
+    <div class="container">
+        <div class="row">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var bus = Model[i];
+                string themeClass = i == 0 ? "primary" : "default";
+                <div class="train-list-item col-md-4">
+                    <div class="panel panel-@themeClass">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                @Html.DisplayFor(x => bus.Route.Origin)
+                                <i class="material-icons" style="font-size: 15px">&#xE5C8;</i>
+                                @Html.DisplayFor(x => bus.Route.Destination)
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                @Html.Label("Date:")
+                                <b>
+                                    @Html.DisplayFor(x => bus.DepartureTime)
+                                </b>
+                            </div>
+
+                            <label>Seats taken:</label>
+                            <div>
+                                @Html.LabelFor(x => bus.Capacity):
+                                <b>
+                                    @Html.DisplayFor(x => bus.Capacity)
+                                    /
+                                    @*@AppConstants.TRAIN_CAPACITY_ECONOMIC*@
+                                </b>
+                            </div>
+
+                            <div>
+                                @Html.LabelFor(x => bus.Class):
+                                <b>
+                                    @Html.DisplayFor(x => bus.Class)
+                                </b>
+                            </div>
+                            @Html.ActionLink("View Details", "Purchase", "Reservation",
+                                    new { id = bus.Id }, new { @class = "btn btn-" + themeClass })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <h4>No bus found. Try searching with different criteria.</h4>
+}

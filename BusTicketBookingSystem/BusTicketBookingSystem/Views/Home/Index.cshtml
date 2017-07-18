@@ -1,31 +1,76 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    Layout = null;
 }
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket Booking System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="navbar-wrapper">
+        @Html.Partial("_NavigationBar")
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div id="carousel-wrapper">
+        @Html.Partial("_Carousel")
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="container marketing">
+        <div class="row summaries">
+            <div class="col-lg-4">
+                <i class="img-circle material-icons icon-price">&#xE227;</i>
+                <h2>Low prices</h2>
+                <p>We guarantee that our prices are the lowest you can find.</p>
+            </div>
+            <div class="col-lg-4">
+                <i class="material-icons icon-destination">&#xE55F;</i>
+                <h2>Top destinations</h2>
+                <p>Visit Jakarta, Bandung, Yogyakarta, Semarang and Surabaya.</p>
+            </div>
+            <div class="col-lg-4">
+                <i class="material-icons icon-train">&#xE534;</i>
+                <h2>
+                    Quality bus
+                </h2>
+                <p>Travel in the most modern, convinient and secure bus.</p>
+            </div>
+        </div>
+        <!-- START THE FEATURETTES -->
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Book tickets online. <span class="text-muted">It's easy and safe.</span></h2>
+                <p class="lead">Purchase tickets for your next travel from the convinience of your home. Spend less time waiting in queues. Buying a ticket usually takes less than 2 minutes.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-circle img-responsive center-block" src="~/Content/Images/buy-online.jpg" alt="Generic placeholder image">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7 col-md-push-5">
+                <h2 class="featurette-heading">Even better, <span class="text-muted">we're mobile friendly!</span></h2>
+                <p class="lead">Imagine you're drinking coffee with your best friend and you spontaneously decide to visit Paris together. We've got you covered. Book your tickets on the go, using our mobile friendly website.</p>
+            </div>
+            <div class="col-md-5 col-md-pull-7">
+                <img class="featurette-image img-circle img-responsive center-block" src="~/Content/Images/mobile-friendly.jpg" alt="Generic placeholder image">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, you can cancel your ticket. <span class="text-muted">We will return up to 100% of its price.</span></h2>
+                <p class="lead">You booked a trip to Amsterdam for your vacation, but your boss suddenly calls and asks you to cover for a colleague who fell sick. Relax, the money you spent won't be wasted. If you cancel your ticket up to three days before departure, we will return its full price. No questions asked.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-circle img-responsive center-block" src="~/Content/Images/cancel-ticket.jpg" alt="Generic placeholder image">
+            </div>
+        </div>
+        <!-- /END THE FEATURETTES -->
+        <!-- FOOTER -->
     </div>
-</div>
+    @Scripts.Render("~/bundles/vendor")
+</body>
+</html>

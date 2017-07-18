@@ -1,0 +1,111 @@
+﻿@model BusTicketBookingSystem.Models.BusVehicleModel
+
+@{
+    ViewBag.Title = "Create Bus";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>BusVehicleModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Class, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownListFor(m => m.DepartureTime, (SelectList)ViewBag.SelectListItmes, new { @class = "form-control" })*@
+                @Html.DropDownListFor(m => m.Class, // 1. Store selected value in Model.State;
+                                                    // when page is rendered after postback,
+                                                    // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.Classes,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Please select class -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Capacity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fare, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fare, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Fare, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group departure-time">
+            @Html.LabelFor(model => model.DepartureTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DepartureTime, new { htmlAttributes = new { @class = "form-control", @id = "departureDate" } })
+                @Html.ValidationMessageFor(model => model.DepartureTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RouteID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RouteID, Model.Routes, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script>
+    var GLOBAL = {};
+
+    GLOBAL.CITIES = @Html.Raw(ViewBag.CitiesJson) || [];
+    </script>
+    <script>
+        $(function () {
+            var minDate = moment().add(1, 'hours')
+            departureDate = document.getElementById('departureDate');
+
+            $(departureDate).datetimepicker({
+                minDate: minDate,
+                locale: 'id-ID',
+                format: 'DD/MM/YYYY HH:mm:ss',
+                showClose: true,
+                showClear: true,
+                toolbarPlacement: 'top',
+                inline: true,
+                sideBySide: true
+            });
+        });
+    </script>
+    <script src="~/Scripts/Bus/index.js"></script>
+}

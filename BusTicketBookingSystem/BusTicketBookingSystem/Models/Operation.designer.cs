@@ -33,6 +33,18 @@ namespace BusTicketBookingSystem.Models
     partial void InsertPassenger(Passenger instance);
     partial void UpdatePassenger(Passenger instance);
     partial void DeletePassenger(Passenger instance);
+    partial void InsertPlace(Place instance);
+    partial void UpdatePlace(Place instance);
+    partial void DeletePlace(Place instance);
+    partial void InsertRoute(Route instance);
+    partial void UpdateRoute(Route instance);
+    partial void DeleteRoute(Route instance);
+    partial void InsertBusVehicle(BusVehicle instance);
+    partial void UpdateBusVehicle(BusVehicle instance);
+    partial void DeleteBusVehicle(BusVehicle instance);
+    partial void InsertReservation(Reservation instance);
+    partial void UpdateReservation(Reservation instance);
+    partial void DeleteReservation(Reservation instance);
     #endregion
 		
 		public OperationDataContext() : 
@@ -72,6 +84,38 @@ namespace BusTicketBookingSystem.Models
 				return this.GetTable<Passenger>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Place> Places
+		{
+			get
+			{
+				return this.GetTable<Place>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Route> Routes
+		{
+			get
+			{
+				return this.GetTable<Route>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BusVehicle> BusVehicles
+		{
+			get
+			{
+				return this.GetTable<BusVehicle>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Reservation> Reservations
+		{
+			get
+			{
+				return this.GetTable<Reservation>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Passenger")]
@@ -93,6 +137,8 @@ namespace BusTicketBookingSystem.Models
 		private string _BankName;
 		
 		private string _BankAccountNumber;
+		
+		private EntitySet<Reservation> _Reservations;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -116,6 +162,7 @@ namespace BusTicketBookingSystem.Models
 		
 		public Passenger()
 		{
+			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
 			OnCreated();
 		}
 		
@@ -255,6 +302,842 @@ namespace BusTicketBookingSystem.Models
 					this._BankAccountNumber = value;
 					this.SendPropertyChanged("BankAccountNumber");
 					this.OnBankAccountNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Passenger_Reservation", Storage="_Reservations", ThisKey="Id", OtherKey="PassengerID")]
+		public EntitySet<Reservation> Reservations
+		{
+			get
+			{
+				return this._Reservations;
+			}
+			set
+			{
+				this._Reservations.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.Passenger = this;
+		}
+		
+		private void detach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.Passenger = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Place")]
+	public partial class Place : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public Place()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Route")]
+	public partial class Route : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Origin;
+		
+		private string _Destination;
+		
+		private EntitySet<BusVehicle> _BusVehicles;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnOriginChanging(string value);
+    partial void OnOriginChanged();
+    partial void OnDestinationChanging(string value);
+    partial void OnDestinationChanged();
+    #endregion
+		
+		public Route()
+		{
+			this._BusVehicles = new EntitySet<BusVehicle>(new Action<BusVehicle>(this.attach_BusVehicles), new Action<BusVehicle>(this.detach_BusVehicles));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Origin", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Origin
+		{
+			get
+			{
+				return this._Origin;
+			}
+			set
+			{
+				if ((this._Origin != value))
+				{
+					this.OnOriginChanging(value);
+					this.SendPropertyChanging();
+					this._Origin = value;
+					this.SendPropertyChanged("Origin");
+					this.OnOriginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Destination", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Destination
+		{
+			get
+			{
+				return this._Destination;
+			}
+			set
+			{
+				if ((this._Destination != value))
+				{
+					this.OnDestinationChanging(value);
+					this.SendPropertyChanging();
+					this._Destination = value;
+					this.SendPropertyChanged("Destination");
+					this.OnDestinationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Route_BusVehicle", Storage="_BusVehicles", ThisKey="Id", OtherKey="RouteID")]
+		public EntitySet<BusVehicle> BusVehicles
+		{
+			get
+			{
+				return this._BusVehicles;
+			}
+			set
+			{
+				this._BusVehicles.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_BusVehicles(BusVehicle entity)
+		{
+			this.SendPropertyChanging();
+			entity.Route = this;
+		}
+		
+		private void detach_BusVehicles(BusVehicle entity)
+		{
+			this.SendPropertyChanging();
+			entity.Route = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BusVehicle")]
+	public partial class BusVehicle : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _RouteID;
+		
+		private string _Class;
+		
+		private int _Capacity;
+		
+		private int _Fare;
+		
+		private System.DateTime _DepartureTime;
+		
+		private EntitySet<Reservation> _Reservations;
+		
+		private EntityRef<Route> _Route;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnRouteIDChanging(int value);
+    partial void OnRouteIDChanged();
+    partial void OnClassChanging(string value);
+    partial void OnClassChanged();
+    partial void OnCapacityChanging(int value);
+    partial void OnCapacityChanged();
+    partial void OnFareChanging(int value);
+    partial void OnFareChanged();
+    partial void OnDepartureTimeChanging(System.DateTime value);
+    partial void OnDepartureTimeChanged();
+    #endregion
+		
+		public BusVehicle()
+		{
+			this._Reservations = new EntitySet<Reservation>(new Action<Reservation>(this.attach_Reservations), new Action<Reservation>(this.detach_Reservations));
+			this._Route = default(EntityRef<Route>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(25) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RouteID", DbType="Int NOT NULL")]
+		public int RouteID
+		{
+			get
+			{
+				return this._RouteID;
+			}
+			set
+			{
+				if ((this._RouteID != value))
+				{
+					if (this._Route.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRouteIDChanging(value);
+					this.SendPropertyChanging();
+					this._RouteID = value;
+					this.SendPropertyChanged("RouteID");
+					this.OnRouteIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Class", DbType="VarChar(25) NOT NULL", CanBeNull=false)]
+		public string Class
+		{
+			get
+			{
+				return this._Class;
+			}
+			set
+			{
+				if ((this._Class != value))
+				{
+					this.OnClassChanging(value);
+					this.SendPropertyChanging();
+					this._Class = value;
+					this.SendPropertyChanged("Class");
+					this.OnClassChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Capacity", DbType="Int NOT NULL")]
+		public int Capacity
+		{
+			get
+			{
+				return this._Capacity;
+			}
+			set
+			{
+				if ((this._Capacity != value))
+				{
+					this.OnCapacityChanging(value);
+					this.SendPropertyChanging();
+					this._Capacity = value;
+					this.SendPropertyChanged("Capacity");
+					this.OnCapacityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fare", DbType="Int NOT NULL")]
+		public int Fare
+		{
+			get
+			{
+				return this._Fare;
+			}
+			set
+			{
+				if ((this._Fare != value))
+				{
+					this.OnFareChanging(value);
+					this.SendPropertyChanging();
+					this._Fare = value;
+					this.SendPropertyChanged("Fare");
+					this.OnFareChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartureTime", DbType="DateTime NOT NULL")]
+		public System.DateTime DepartureTime
+		{
+			get
+			{
+				return this._DepartureTime;
+			}
+			set
+			{
+				if ((this._DepartureTime != value))
+				{
+					this.OnDepartureTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DepartureTime = value;
+					this.SendPropertyChanged("DepartureTime");
+					this.OnDepartureTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="BusVehicle_Reservation", Storage="_Reservations", ThisKey="Id", OtherKey="BusID")]
+		public EntitySet<Reservation> Reservations
+		{
+			get
+			{
+				return this._Reservations;
+			}
+			set
+			{
+				this._Reservations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Route_BusVehicle", Storage="_Route", ThisKey="RouteID", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Route Route
+		{
+			get
+			{
+				return this._Route.Entity;
+			}
+			set
+			{
+				Route previousValue = this._Route.Entity;
+				if (((previousValue != value) 
+							|| (this._Route.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Route.Entity = null;
+						previousValue.BusVehicles.Remove(this);
+					}
+					this._Route.Entity = value;
+					if ((value != null))
+					{
+						value.BusVehicles.Add(this);
+						this._RouteID = value.Id;
+					}
+					else
+					{
+						this._RouteID = default(int);
+					}
+					this.SendPropertyChanged("Route");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.BusVehicle = this;
+		}
+		
+		private void detach_Reservations(Reservation entity)
+		{
+			this.SendPropertyChanging();
+			entity.BusVehicle = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Reservation")]
+	public partial class Reservation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _TotalSeat;
+		
+		private string _SeatNumber;
+		
+		private System.DateTime _PurchasedOn;
+		
+		private int _PassengerID;
+		
+		private int _BusID;
+		
+		private int _TotalAmount;
+		
+		private bool _IsConfirmed;
+		
+		private EntityRef<BusVehicle> _BusVehicle;
+		
+		private EntityRef<Passenger> _Passenger;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnTotalSeatChanging(int value);
+    partial void OnTotalSeatChanged();
+    partial void OnSeatNumberChanging(string value);
+    partial void OnSeatNumberChanged();
+    partial void OnPurchasedOnChanging(System.DateTime value);
+    partial void OnPurchasedOnChanged();
+    partial void OnPassengerIDChanging(int value);
+    partial void OnPassengerIDChanged();
+    partial void OnBusIDChanging(int value);
+    partial void OnBusIDChanged();
+    partial void OnTotalAmountChanging(int value);
+    partial void OnTotalAmountChanged();
+    partial void OnIsConfirmedChanging(bool value);
+    partial void OnIsConfirmedChanged();
+    #endregion
+		
+		public Reservation()
+		{
+			this._BusVehicle = default(EntityRef<BusVehicle>);
+			this._Passenger = default(EntityRef<Passenger>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalSeat", DbType="Int NOT NULL")]
+		public int TotalSeat
+		{
+			get
+			{
+				return this._TotalSeat;
+			}
+			set
+			{
+				if ((this._TotalSeat != value))
+				{
+					this.OnTotalSeatChanging(value);
+					this.SendPropertyChanging();
+					this._TotalSeat = value;
+					this.SendPropertyChanged("TotalSeat");
+					this.OnTotalSeatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SeatNumber", DbType="VarChar(100)")]
+		public string SeatNumber
+		{
+			get
+			{
+				return this._SeatNumber;
+			}
+			set
+			{
+				if ((this._SeatNumber != value))
+				{
+					this.OnSeatNumberChanging(value);
+					this.SendPropertyChanging();
+					this._SeatNumber = value;
+					this.SendPropertyChanged("SeatNumber");
+					this.OnSeatNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PurchasedOn", DbType="DateTime NOT NULL")]
+		public System.DateTime PurchasedOn
+		{
+			get
+			{
+				return this._PurchasedOn;
+			}
+			set
+			{
+				if ((this._PurchasedOn != value))
+				{
+					this.OnPurchasedOnChanging(value);
+					this.SendPropertyChanging();
+					this._PurchasedOn = value;
+					this.SendPropertyChanged("PurchasedOn");
+					this.OnPurchasedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PassengerID", DbType="Int NOT NULL")]
+		public int PassengerID
+		{
+			get
+			{
+				return this._PassengerID;
+			}
+			set
+			{
+				if ((this._PassengerID != value))
+				{
+					if (this._Passenger.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPassengerIDChanging(value);
+					this.SendPropertyChanging();
+					this._PassengerID = value;
+					this.SendPropertyChanged("PassengerID");
+					this.OnPassengerIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BusID", DbType="Int NOT NULL")]
+		public int BusID
+		{
+			get
+			{
+				return this._BusID;
+			}
+			set
+			{
+				if ((this._BusID != value))
+				{
+					if (this._BusVehicle.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnBusIDChanging(value);
+					this.SendPropertyChanging();
+					this._BusID = value;
+					this.SendPropertyChanged("BusID");
+					this.OnBusIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalAmount", DbType="Int NOT NULL")]
+		public int TotalAmount
+		{
+			get
+			{
+				return this._TotalAmount;
+			}
+			set
+			{
+				if ((this._TotalAmount != value))
+				{
+					this.OnTotalAmountChanging(value);
+					this.SendPropertyChanging();
+					this._TotalAmount = value;
+					this.SendPropertyChanged("TotalAmount");
+					this.OnTotalAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsConfirmed", DbType="Bit NOT NULL")]
+		public bool IsConfirmed
+		{
+			get
+			{
+				return this._IsConfirmed;
+			}
+			set
+			{
+				if ((this._IsConfirmed != value))
+				{
+					this.OnIsConfirmedChanging(value);
+					this.SendPropertyChanging();
+					this._IsConfirmed = value;
+					this.SendPropertyChanged("IsConfirmed");
+					this.OnIsConfirmedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="BusVehicle_Reservation", Storage="_BusVehicle", ThisKey="BusID", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public BusVehicle BusVehicle
+		{
+			get
+			{
+				return this._BusVehicle.Entity;
+			}
+			set
+			{
+				BusVehicle previousValue = this._BusVehicle.Entity;
+				if (((previousValue != value) 
+							|| (this._BusVehicle.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._BusVehicle.Entity = null;
+						previousValue.Reservations.Remove(this);
+					}
+					this._BusVehicle.Entity = value;
+					if ((value != null))
+					{
+						value.Reservations.Add(this);
+						this._BusID = value.Id;
+					}
+					else
+					{
+						this._BusID = default(int);
+					}
+					this.SendPropertyChanged("BusVehicle");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Passenger_Reservation", Storage="_Passenger", ThisKey="PassengerID", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Passenger Passenger
+		{
+			get
+			{
+				return this._Passenger.Entity;
+			}
+			set
+			{
+				Passenger previousValue = this._Passenger.Entity;
+				if (((previousValue != value) 
+							|| (this._Passenger.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Passenger.Entity = null;
+						previousValue.Reservations.Remove(this);
+					}
+					this._Passenger.Entity = value;
+					if ((value != null))
+					{
+						value.Reservations.Add(this);
+						this._PassengerID = value.Id;
+					}
+					else
+					{
+						this._PassengerID = default(int);
+					}
+					this.SendPropertyChanged("Passenger");
 				}
 			}
 		}

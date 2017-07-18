@@ -1,0 +1,35 @@
+﻿@{ 
+    Layout = null;
+}
+
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("directions_bus", "Index", "Home", new { area = "" }, new { @class = "navbar-brand material-icons" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Search bus", "Create", "Reservation")</li>
+                    <li>@Html.ActionLink("Purchased ticket", "List", "Reservation")</li>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("Role Manager", "Index", "Roles")</li>
+                    <li>@Html.ActionLink("Manage City", "Index", "Place")</li>
+                    <li>@Html.ActionLink("Manage Route", "Index", "Route")</li>
+                    <li>@Html.ActionLink("Manage Bus", "Index", "BusVehicle")</li>                    
+                }
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</nav>

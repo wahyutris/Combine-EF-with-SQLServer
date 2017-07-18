@@ -65,6 +65,7 @@ namespace BusTicketBookingSystem.Models
     {
         [Display(Name = "User Roles")]
         // This value will be insert automatically as "User" pre-defined in AccountController.cs
+        // Admin will be created automatically in StartUp.cs
         public string UserRoles { get; set; }
 
         [Required]

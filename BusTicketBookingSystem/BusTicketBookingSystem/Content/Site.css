@@ -5,6 +5,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    min-height: 450px;
+    margin-top: 3em;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -16,9 +18,184 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+/* Set width on the form input elements since they're 75% wide by default */
 input,
+button,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 268px;
+}
+
+select {
+    text-align: center;
+    min-width: 66px;
+}
+/** TRAIN TICKET BOOKING SYSTEM SPECIFIC */
+
+nav {
+    font-size: 1.25em;
+}
+
+.carousel-caption p {
+    font-size: 1.5em;
+}
+
+.carousel-caption small {
+    font-size: 1.2em;
+    color: lightblue;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+.input-validation-error {
+    color: red;
+}
+
+.datepicker-days .day {
+    color: rgba(33, 150, 243, 1);
+    font-weight: bold;
+}
+
+    .datepicker-days .day.disabled {
+        color: #ff3737 !important;
+        font-weight: normal;
+    }
+
+
+.panel:hover {
+    -moz-box-shadow: 0 2px 9px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 2px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+.panel-primary:hover, .panel-default:hover {
+    background-color: azure;
+    color: #333;
+}
+
+.panel-body {
+    padding-left: 30px;
+}
+
+.banner {
+    width: 300px;
+    height: 250px;
+}
+
+.amsterdam-img {
+    background: #000 no-repeat center url('Images/amsterdam-banner.jpg');
+}
+
+.berlin-img {
+    background: #000 no-repeat center url('Images/berlin-banner.jpg');
+}
+
+.brussels-img {
+    background: #000 no-repeat center url('Images/brussels-banner.jpg');
+}
+
+.london-img {
+    background: #000 no-repeat center url('Images/london-banner.jpg');
+}
+
+.paris-img {
+    background: #000 no-repeat center url('Images/paris-banner.jpg');
+}
+
+a#banner {
+    text-decoration: none;
+}
+
+.banner-heading, .banner-content {
+    color: white;
+    padding: 0.5em 0.5em;
+}
+
+.banner-heading {
+    padding-top: 1.0em;
+}
+
+@media only screen and (max-width: 974px) and (min-width: 480px) {
+    .banner {
+        width: 728px;
+        height: 90px;
+    }
+
+    .banner-content {
+        position: absolute;
+        visibility: hidden;
+    }
+
+        .banner-content:before {
+            content: '';
+            visibility: visible;
+        }
+}
+
+/** Landing page */
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 20;
+}
+
+#carousel-wrapper {
+    margin-bottom: 5em;
+}
+
+    #carousel-wrapper img {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+        -moz-filter: blur(2px);
+        -o-filter: blur(2px);
+        -ms-filter: blur(2px);
+        filter: brightness(75%);
+        -webkit-filter: brightness(75%);
+        -moz-filter: brightness(75%);
+        -o-filter: brightness(75%);
+        -ms-filter: brightness(75%);
+    }
+
+@media only screen and (max-width: 996px) {
+    #carousel-wrapper img {
+        max-width: none;
+    }
+}
+
+.carousel-caption {
+    padding-bottom: 120px;
+}
+
+.landing-container {
+    margin-top: 3em;
+}
+
+.marketing .summaries {
+    text-align: center;
+}
+
+.icon-train, .icon-price, .icon-destination {
+    font-size: 8em;
+    text-align: center;
+}
+
+/** Search page */
+#departureDate {
+    text-align: center;
+}
+
+@media only screen and (min-width: 756px) {
+    #departureTime {
+        margin-left: 4px;
+    }
+}
+
+.alert-info{
+    color:#3a87ad;
+    background-color:#d9edf7;
+    border-color:aqua;
 }
