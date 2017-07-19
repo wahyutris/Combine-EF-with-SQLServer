@@ -50,7 +50,8 @@ CREATE TABLE Reservation
 	PassengerID int NOT NULL, 
 	BusID int NOT NULL, 
 	TotalAmount INT NOT NULL,
-	IsConfirmed BIT NOT NULL
+	IsConfirmed BIT NOT NULL,
+	PaymentProof VARCHAR(100)
 )
 ALTER TABLE Reservation
 ADD CONSTRAINT FK_TicketPassenger FOREIGN KEY (PassengerID)

@@ -70,7 +70,7 @@
                         }
                         else
                         {
-                            @Html.ActionLink("Upload Payment Proof", "UploadProof", new { ticketId = ticket.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Upload Payment Proof", "UploadProof2", new { id = ticket.Id }, new { @class = "btn btn-primary" })
                         }
                         @Html.ActionLink("Cancel", "Cancel", "Reservation", new { id = ticket.Id }, new { @class = "btn btn-danger cancelBtn", @id = ticket.Id })
                     </div>
@@ -81,9 +81,9 @@
 </div>
 
 <div class="row">
-    <h4>Please pay ticket fare <strong>ONLY</strong> to this following account and upload transfer proof</h4>
-    <h5>Bank Name : ABC Bank</h5>
-    <h5>Account Number : 123 456 789</h5>
+    <h5>Please pay ticket fare <strong>ONLY</strong> to this following account and upload transfer proof</h5>
+    <h6>Bank Name : ABC Bank</h6>
+    <h6>Account Number : 123 456 789</h6>
 </div>
 
 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog">

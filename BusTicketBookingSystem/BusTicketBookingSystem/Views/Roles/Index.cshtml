@@ -8,6 +8,14 @@
     <br />
 </div>
 
+<div class="row alert-info col-sm-12 col-lg-12 col-md-12">
+    @ViewBag.Message
+</div>
+
+<div class="row col-sm-12 col-lg-12 col-md-12">
+    <br />
+</div>
+
 <div class="row col-sm-12 col-lg-12 col-md-12">
 
 
@@ -55,27 +63,6 @@
 
             </div> <!--End Panel Body-->
         </div> <!--End Panel-->
-    </div> <!--End First Column-->
-
-    <div class="col-sm-6 col-lg-6 col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4>Add a Role to a User</h4>
-            </div>
-            <div class="panel-body">
-                @using (Html.BeginForm("RoleAddToUser", "Roles"))
-            {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-
-                    <p>User Name: @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...")</p>
-                    <p>Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")</p>
-                    <p><input type="submit" value="Save" class="btn-primary" /></p>
-
-                }
-            </div> <!-- End Panel Body-->
-        </div> <!-- End Panel -->
-
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -105,6 +92,26 @@
                 }
             </div> <!-- End Panel Body-->
         </div> <!-- End Panel -->
+    </div> <!--End First Column-->
+
+    <div class="col-sm-6 col-lg-6 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Add a Role to a User</h4>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("RoleAddToUser", "Roles"))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <p>User Name: @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...")</p>
+                    <p>Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")</p>
+                    <p><input type="submit" value="Save" class="btn-primary" /></p>
+
+                }
+            </div> <!-- End Panel Body-->
+        </div> <!-- End Panel -->
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -127,7 +134,3 @@
     </div> <!--End Second Column-->
 
 </div>  <!--Overall Page Wrapper-->
-
-<div class="alert-info col-sm-12 col-lg-12 col-md-12">
-    @ViewBag.Message
-</div>

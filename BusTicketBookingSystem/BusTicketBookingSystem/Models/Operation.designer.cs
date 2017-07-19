@@ -873,6 +873,8 @@ namespace BusTicketBookingSystem.Models
 		
 		private bool _IsConfirmed;
 		
+		private string _PaymentProof;
+		
 		private EntityRef<BusVehicle> _BusVehicle;
 		
 		private EntityRef<Passenger> _Passenger;
@@ -897,6 +899,8 @@ namespace BusTicketBookingSystem.Models
     partial void OnTotalAmountChanged();
     partial void OnIsConfirmedChanging(bool value);
     partial void OnIsConfirmedChanged();
+    partial void OnPaymentProofChanging(string value);
+    partial void OnPaymentProofChanged();
     #endregion
 		
 		public Reservation()
@@ -1070,6 +1074,26 @@ namespace BusTicketBookingSystem.Models
 					this._IsConfirmed = value;
 					this.SendPropertyChanged("IsConfirmed");
 					this.OnIsConfirmedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PaymentProof", DbType="VarChar(100)")]
+		public string PaymentProof
+		{
+			get
+			{
+				return this._PaymentProof;
+			}
+			set
+			{
+				if ((this._PaymentProof != value))
+				{
+					this.OnPaymentProofChanging(value);
+					this.SendPropertyChanging();
+					this._PaymentProof = value;
+					this.SendPropertyChanged("PaymentProof");
+					this.OnPaymentProofChanged();
 				}
 			}
 		}

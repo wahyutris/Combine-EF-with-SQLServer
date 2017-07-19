@@ -7,7 +7,9 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BusTicketBookingSystem.Controllers
 {
@@ -58,6 +60,8 @@ namespace BusTicketBookingSystem.Controllers
             var query = from reservation in context.Reservations
                         join bus in context.BusVehicles
                         on reservation.BusID equals bus.Id
+                        join passenger in context.Passengers
+                        on reservation.PassengerID equals passenger.Id
                         where reservation.Id == id
                         select new ReservationModel
                         {
@@ -65,6 +69,10 @@ namespace BusTicketBookingSystem.Controllers
                             TotalSeat = reservation.TotalSeat,
                             PurchasedOn = reservation.PurchasedOn,
                             PassengerID = reservation.PassengerID,
+                            PassengerName = $"{passenger.FirstName} {passenger.LastName}",
+                            PhoneNumber = passenger.PhoneNumber,
+                            BankName = passenger.BankName,
+                            BankAccount = passenger.BankAccountNumber,
                             BusOrigin = bus.Route.Origin,
                             BusDestination = bus.Route.Destination,
                             BusName = bus.Name,
@@ -72,7 +80,8 @@ namespace BusTicketBookingSystem.Controllers
                             BusCapacity = bus.Capacity,
                             DepartureTime = bus.DepartureTime.ToString(),
                             TotalAmount = reservation.TotalAmount,
-                            IsConfirmed = reservation.IsConfirmed
+                            IsConfirmed = reservation.IsConfirmed,
+                            PaymentProof = reservation.PaymentProof
                         };
 
             return View(query.SingleOrDefault());
@@ -421,6 +430,78 @@ namespace BusTicketBookingSystem.Controllers
                 context.SubmitChanges();
 
                 return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [Authorize]
+        public ActionResult UploadProof()
+        {
+            ViewBag.Email = "Admin@admin.com";
+
+            return View();
+        }
+        [Authorize]
+        [HttpGet]
+        public ActionResult UploadProof2(int id)
+        {
+            var currentUserId = User.Identity.GetUserId();
+
+            var query = from reservation in context.Reservations
+                        join bus in context.BusVehicles
+                        on reservation.BusID equals bus.Id
+                        join passenger in context.Passengers
+                        on reservation.PassengerID equals passenger.Id
+                        where reservation.Id == id
+                        where passenger.UserID.ToString() == currentUserId
+                        select new ReservationModel
+                        {
+                            Id = reservation.Id,
+                            TotalSeat = reservation.TotalSeat,
+                            BusOrigin = bus.Route.Origin,
+                            BusDestination = bus.Route.Destination,
+                            BusName = bus.Name,
+                            BusClass = bus.Class,
+                            DepartureTime = bus.DepartureTime.ToString(),
+                            PassengerName = $"{passenger.FirstName} {passenger.LastName}",
+                            BankName = passenger.BankName,
+                            BankAccount = passenger.BankAccountNumber,
+                            TotalAmount = reservation.TotalAmount,
+                            PaymentProof = reservation.PaymentProof
+                        };
+
+            return View(query.SingleOrDefault());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult UploadProof2(ReservationModel model, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            string imageUrl = "";
+            if (file != null)
+            {
+                string ImageName = System.IO.Path.GetFileName(file.FileName);
+                string physicalPath = Server.MapPath("~/Transfer/" + ImageName);
+                file.SaveAs(physicalPath);
+
+                imageUrl = ImageName;
+            }
+            try
+            {
+                Reservation reservation = context.Reservations.Where(some => some.Id == model.Id).Single<Reservation>();
+                reservation.PaymentProof = imageUrl;
+
+                context.SubmitChanges();
+
+                return RedirectToAction("List");
             }
             catch
             {

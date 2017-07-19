@@ -15,14 +15,14 @@ namespace BusTicketBookingSystem.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Bus Ticket Booking System";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Made by : Wahyu Trisvianto";
 
             return View();
         }

@@ -49,6 +49,7 @@
       <Column Name="BusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="TotalAmount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PaymentProof" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Association Name="BusVehicle_Reservation" Member="BusVehicle" ThisKey="BusID" OtherKey="Id" Type="BusVehicle" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
       <Association Name="Passenger_Reservation" Member="Passenger" ThisKey="PassengerID" OtherKey="Id" Type="Passenger" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>

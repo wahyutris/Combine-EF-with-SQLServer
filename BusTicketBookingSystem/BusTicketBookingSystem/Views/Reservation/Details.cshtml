@@ -1,112 +1,172 @@
 ﻿@model BusTicketBookingSystem.Models.ReservationModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detail Reservation";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>ReservationModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalSeat)
-        </dt>
+    <table class="table">
+        <tr>
+            <th>Details</th>
+            <th>Upload proof</th>
+        </tr>
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TotalSeat)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TotalSeat)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.TotalSeat)
+                    </dd>
 
-        @*<dt>
-            @Html.DisplayNameFor(model => model.SeatNumber)
-        </dt>
+                    @*<dt>
+                        @Html.DisplayNameFor(model => model.SeatNumber)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SeatNumber)
-        </dd>*@
+                    <dd>
+                        @Html.DisplayFor(model => model.SeatNumber)
+                    </dd>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PurchasedOn)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PurchasedOn)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PurchasedOn)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.PurchasedOn)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PassengerID)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TotalAmount)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PassengerID)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.TotalAmount)
+                    </dd>
+                </dl>
+            </td>
+            <td rowspan="4">
+                <a href="/Transfer/@Model.PaymentProof">
+                    <img src="/Transfer/@Model.PaymentProof"/>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PassengerID)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BusName)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PassengerID)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusName)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PassengerName)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BusClass)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PassengerName)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusClass)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BusOrigin)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusOrigin)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BankName)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BusDestination)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.BankName)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusDestination)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BankAccount)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BusCapacity)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.BankAccount)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BusName)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.BusCapacity)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.BusName)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DepartureTime)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BusClass)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DepartureTime)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.BusClass)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalAmount)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BusOrigin)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TotalAmount)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.BusOrigin)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsConfirmed)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BusDestination)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsConfirmed)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.BusDestination)
+                    </dd>
 
-    </dl>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BusCapacity)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.BusCapacity)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DepartureTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DepartureTime)
+                    </dd>
+                </dl>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.IsConfirmed)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.IsConfirmed)
+                    </dd>
+
+                </dl>
+            </td>
+        </tr>
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
